@@ -1,4 +1,5 @@
 import os
+from arbitrage_trading.utils import create_xlsx
 from dotenv import load_dotenv
 from mysql import connector
 
@@ -14,6 +15,30 @@ class Database:
             db=os.getenv('DB_NAME')
         )
 
+    def get_assets(self):
+        try:
+            cursor = self.db.cursor()
+            cursor.execute("SELECT * FROM assets")
+
+            investment = []
+            data = []
+
+            assets = cursor.fetchall()
+
+            for row in assets:
+                cursor.execute(f"SELECT * FROM price WHERE symbol = '{row[1]}'")
+                container = cursor.fetchall()
+                if container.__len__() >= 2:
+                    profit = round(float(container[1][2] - float(container[0][2])), 2)
+                    profit_gain = round(float(profit / float(container[0][2]) * 100), 2)
+                    if profit_gain > 1:
+                        investment.append([row[1], profit, profit_gain])
+                        data += ([row[1], profit, profit_gain])
+
+            headers = ['Stock Symbol', 'Profit', 'Profit Gain']
+            create_xlsx('Potential Investment', headers, investment)
+
+
 # Create cursor from DB connection
 # Execute SQL query
         # Fetch and store results
@@ -26,10 +51,7 @@ class Database:
         # Close connection
         # Allow for exceptions
 
-        self.cursor = self.connection.cursor()
 
-    def query(self, query):
-        self.cursor.execute(query)
-        return self.cursor.fetchall()
-
-        self.db.close()
+            self.db.close()
+        except Exception as e:
+            print(e)
