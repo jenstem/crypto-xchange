@@ -38,20 +38,6 @@ class Database:
             headers = ['Stock Symbol', 'Profit', 'Profit Gain']
             create_xlsx('Potential Investment', headers, investment)
 
-
-# Create cursor from DB connection
-# Execute SQL query
-        # Fetch and store results
-        # Query price and symbols
-        # Sub-query to get all rows from price table
-        # Check length of container (results from sub-query)
-        # Calculate the profit
-        # Add to list of profits
-        # Create spreadsheet with profits
-        # Close connection
-        # Allow for exceptions
-
-
             self.db.close()
         except Exception as e:
             print(e)
