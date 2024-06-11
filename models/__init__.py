@@ -1,5 +1,5 @@
 import os
-from arbitrage_trading.utils import create_xlsx
+from stock_trading.utils import create_xlsx
 from dotenv import load_dotenv
 from mysql import connector
 
