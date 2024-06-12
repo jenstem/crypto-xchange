@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import hashlib
 import hmac
 import json
+import requests
 import time
 import urllib
 from urllib import request
@@ -57,3 +58,14 @@ def get_token():
     print(token)
 
     return token
+
+
+    # Attach headers and return the POST request
+def api_request(uripath, data):
+    headers = {
+        'API-Key': os.environ.get("KRAKEN_API_KEY"),
+        'API-Sign': get_signature(uripath, data)
+    }
+
+    req = requests.post((os.environ.get("KRAKEN_API_URL") + uripath), headers=headers, data=data)
+    return req
