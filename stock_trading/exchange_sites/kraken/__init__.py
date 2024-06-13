@@ -92,3 +92,20 @@ def get_balance():
     })
 
     print(results.json())
+
+
+# Get the deposit address
+def get_deposit_address(asset, method):
+    def address(is_new = False):
+        return api_request('/0/private/DepositAddresses', {
+            'nonce': str(int(time.time() * 1000)),
+            'asset': asset,
+            'method': method,
+            'new': is_new
+        }).json()
+
+    results = address()
+    if results["results"].__len__() == 0:
+        results = address(True)
+
+    print(results)
