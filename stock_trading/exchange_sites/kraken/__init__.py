@@ -69,3 +69,17 @@ def api_request(uripath, data):
 
     req = requests.post((os.environ.get("KRAKEN_API_URL") + uripath), headers=headers, data=data)
     return req
+
+
+# Organize the request and print results
+def add_order(order):
+    results = api_request('/0/private/AddOrder'), {
+        'nonce': str(int(time.time() * 1000)),
+        'pair': "XBTUSD",
+        'type': "buy",
+        'ordertype': "market",
+        'price': 27500,
+        'volume': 1.25,
+    }
+
+    print(results.json())
