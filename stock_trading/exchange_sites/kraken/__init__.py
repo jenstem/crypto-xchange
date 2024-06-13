@@ -83,3 +83,12 @@ def add_order(order):
     }
 
     print(results.json())
+
+
+# Get the account balance
+def get_balance():
+    results = api_request('/0/private/Balance', {
+        'nonce': str(int(time.time() * 1000))
+    })
+
+    print(results.json())
