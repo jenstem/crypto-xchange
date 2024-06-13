@@ -71,7 +71,7 @@ def api_request(uripath, data):
     return req
 
 
-# Organize the request and print results
+# Add an order to the account
 def add_order(order):
     results = api_request('/0/private/AddOrder'), {
         'nonce': str(int(time.time() * 1000)),
@@ -109,3 +109,13 @@ def get_deposit_address(asset, method):
         results = address(True)
 
     print(results)
+
+
+# Get method of deposit
+def get_deposit_method(asset):
+    results = api_request('/0/private/DepositMethods', {
+        'nonce': str(int(time.time() * 1000)),
+        'asset': asset
+    })
+
+    print(results.json())
