@@ -1,3 +1,4 @@
+import json
 import sys
 from stock_trading.exchange_sites.kraken import kraken
 from websocket import create_connection
@@ -48,3 +49,19 @@ class WSBookKraken:
             print("Error: WebSocket message failed (%s)" % e)
             self.ws.close()
             sys.exit(1)
+
+        self.api_book = json.loads(self.api_data)
+        if type(self.api_data) == list:
+            if "as" in self.api_data[1]:
+                self.api_update_book["ask", self.api_data[1]["as"]]
+                self.api_update_book["bid", self.api_data[1]["bs"]]
+            elif "a" in self.api_data[1] or "b" in self.api_data[1]:
+                for x in self.api_data[1:len(self.api_data[1:]) -1]:
+                    if "a" in x:
+                        self.api_update_book["ask", x["a"]]
+                    if "b" in x:
+                        self.api_update_book["bid", x["b"]]
+        try:
+            yield list(self.api_book['bid'].keys())[0], list(self.api_book['ask'].keys())[0]
+        except IndexError:
+            yield [], []
