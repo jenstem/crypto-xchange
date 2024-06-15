@@ -18,5 +18,13 @@ class WSBookKraken:
                         % {"feed": self.api_feed, "depth": self.api_depth, "symbol": self.api_symbol,
                         "token": kraken.get_token()}
 
-        # Connection to the websocket
+        self.ws_connect()
         self.send()
+
+
+    def ws_connect(self):
+        try:
+            self.ws = kraken.WSClient(self.api_domain, self.api_data)
+        except Exception as e:
+            print("Error: WebSocket failed to connect" % e)
+            sys.exit(1)
