@@ -37,3 +37,14 @@ class WSBookKraken:
             print("Error: Feed subscription failed (%s)" % e)
             self.ws.close()
             sys.exit(1)
+
+    def receive(self):
+        try:
+            self.api_data = self.ws.recv()
+        except KeyboardInterrupt:
+            self.ws.close()
+            sys.exit(0)
+        except Exception as e:
+            print("Error: WebSocket message failed (%s)" % e)
+            self.ws.close()
+            sys.exit(1)
