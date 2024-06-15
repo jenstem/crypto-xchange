@@ -1,5 +1,6 @@
 import sys
 from stock_trading.exchange_sites.kraken import kraken
+from websocket import create_connection
 
 
 class WSBookKraken:
@@ -24,7 +25,15 @@ class WSBookKraken:
 
     def ws_connect(self):
         try:
-            self.ws = kraken.WSClient(self.api_domain, self.api_data)
+            self.ws = create_connection(self.api_domain)
         except Exception as e:
             print("Error: WebSocket failed to connect" % e)
+            sys.exit(1)
+
+    def send(self):
+        try:
+            self.ws.send(self.api_data)
+        except Exception as e:
+            print("Error: Feed subscription failed (%s)" % e)
+            self.ws.close()
             sys.exit(1)
