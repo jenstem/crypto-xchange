@@ -14,6 +14,15 @@ def create_xlsx(sheet_name, headers, results):
     # Create a workbook and add a worksheet.
     workbook = xlsxwriter.Workbook(f'{sheet_name}.xlsx')
     worksheet = workbook.add_worksheet()
+    bold = workbook.add_format({'bold': 1})
+    worksheet.set_column(0, 9, 15)
+    i = 0
+    row = 1
+    col = 0
+    for head in heads:
+        letter = 65 + i
+        worksheet.write(f"{chr(letter)}1", head, bold)
+        i += 1
 
     # Add headers
     for header in headers:
