@@ -23,3 +23,6 @@ def stock_watcher(ws, data):
     print("----------")
     print(json.loads(data))
     print("----------")
+
+def market_close():
+    print("Market is closed")
