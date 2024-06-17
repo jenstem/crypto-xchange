@@ -18,7 +18,7 @@ class Database:
     def get_assets(self):
         try:
             cursor = self.db.cursor()
-            cursor.execute("SELECT * FROM assets")
+            cursor.execute("SELECT DISTINCT stock_symbol FROM price;")
 
             investment = []
             data = []
@@ -26,16 +26,16 @@ class Database:
             assets = cursor.fetchall()
 
             for row in assets:
-                cursor.execute(f"SELECT * FROM price WHERE symbol = '{row[1]}'")
+                cursor.execute(f"SELECT * FROM price WHERE stock_symbol = '{row[1]}' ORDER BY ask DESC")
                 container = cursor.fetchall()
                 if container.__len__() >= 2:
-                    profit = round(float(container[1][2] - float(container[0][2])), 2)
-                    profit_gain = round(float(profit / float(container[0][2]) * 100), 2)
+                    profit = round(float(container[0][6] - float(container[-1][5])), 2)
+                    profit_gain = round(profit * 100 / float(container[0][6]), 2)
                     if profit_gain > 1:
-                        investment.append([row[1], profit, profit_gain])
-                        data += ([row[1], profit, profit_gain])
+                        investment.append(f"{profit_gain}% - {container[-1][2]} on {container[-1][1]} at {container[-1][6]} and Sell on {container[0][1]} at {container[0][5]}")
+                        data += ([("Buy", container[-1][2], container[-1][1], container[-1][6], f"{profit_gain}%", profit, "Sell", container[0][5], container[0][1])])
 
-            headers = ['Stock Symbol', 'Profit', 'Profit Gain']
+            headers = ['Action', 'symbol', 'exchange', 'ask price', 'profit gain', 'expected profit', 'artitrage', 'bid price', 'crypto exchange']
             create_xlsx('Potential Investment', headers, investment)
 
             self.db.close()
