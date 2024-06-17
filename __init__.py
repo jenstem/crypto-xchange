@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import json
-from stock_trading.exchange_sites.kraken import get_deposit_address
+from stock_trading.exchange_sites.kraken import *
 
 load_dotenv()
 
@@ -18,3 +18,8 @@ def get_trading_pairs() -> list:
 prices = client.get_all_tickers()
 
 address = client.get_deposit_address(coin='BTC')
+
+def stock_watcher(ws, data):
+    print("----------")
+    print(json.loads(data))
+    print("----------")
