@@ -10,7 +10,7 @@ def notify(text):
     requests.get(url)
 
 # Create Excel file
-def create_xlsx(sheet_name, headers, results):
+def create_xlsx(sheet_name, headers, contents):
     # Create a workbook and add a worksheet.
     workbook = xlsxwriter.Workbook(f'{sheet_name}.xlsx')
     worksheet = workbook.add_worksheet()
@@ -19,19 +19,18 @@ def create_xlsx(sheet_name, headers, results):
     i = 0
     row = 1
     col = 0
-    for head in heads:
+    for header in headers:
         letter = 65 + i
-        worksheet.write(f"{chr(letter)}1", head, bold)
+        worksheet.write(f"{chr(letter)}1", header, bold)
         i += 1
 
-    # Add headers
-    for header in headers:
-        worksheet.write(0, headers.index(header), header)
-
-    # Add data here
-    for result in results:
-        worksheet.write(results.index(result) + 1, 0, result[0])
-        for x in result[1:]:
-            worksheet.write(results.index(result) + 1, result.index(x), x)
+    print(content[0])
+    for content in contents:
+            worksheet.write_string(row, col, str(content[0]))
+            j = 1
+            for _c in content[1:]:
+                worksheet.write_string(row, col + j, str(_c))
+                j += 1
+            row += 1
 
     workbook.close()
