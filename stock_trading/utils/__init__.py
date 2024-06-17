@@ -1,10 +1,13 @@
-import os
+import os, requests
 from dotenv import load_dotenv
 import xlsxwriter
 
 load_dotenv()
 
 # Notification function
+def notify(text):
+    url = f"https://api.telegram.org/{os.environ.get('TELEGRAM_BOT_ID')}/sendMessage?chat_id={os.environ.get('TELEGRAM_CHAT_ID')}&text={text}"
+    requests.get(url)
 
 # Create Excel file
 def create_xlsx(sheet_name, headers, results):
