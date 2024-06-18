@@ -50,3 +50,17 @@ def build_trading_pairs(*args) -> list:
                 f.write(pickle.dumps(pairs))
 
     return pairs
+
+
+def trading_paths(pairs_trio, pairs_info):
+    print(pairs_trio)
+    trading_value = float(pairs_info[pairs_trio[1][1][0]])
+    base_price = (1 / float(pairs_info[pairs_trio[0][1][0]]))
+    _rate = 1 + float(pairs_info[pairs_trio[0][3]]) + float(pairs_info[pairs_trio[1][3]]) + float(pairs_info[pairs_trio[2][2]])
+    cross_rate = base_price * trading_value * float(pairs_info[pairs_trio[2][0][0]])
+    if _rate > cross_rate:
+        cross_rate = (1 / float(pairs_info[pairs_trio[2]][1][0])) * float(pairs_info[pairs_trio[1]][0][0])* float(pairs_info[pairs_trio[0]][0][0])
+
+    profit = base_price - cross_rate
+
+    return str(cross_rate), _rate, profit
