@@ -92,3 +92,19 @@ def trade_ordering(stock_pairs):
                 trade_order[p] = "sell"
 
     return trade_order
+
+
+def trading_opportunity(*args):
+    try:
+        t_pairs = build_trading_pairs(*list(*args))
+        t_pairs_info = {}
+        for pair in t_pairs:
+            get_order = client.get_order_book(symbol=pair)
+            trade_fee = client.get_trade_fee(symbol=pair)
+            marker = trade_fee[0]['makerCommission']
+            taker = trade_fee[0]['takerCommission']
+            t_pairs_info[pair] = [get_order['bids'][0], get_order['asks'][0], marker, taker]
+
+        calculate_trading_opportunity(t_pairs_info)
+    except Exception as e:
+        print(e)
