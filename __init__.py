@@ -64,3 +64,19 @@ def trading_paths(pairs_trio, pairs_info):
     profit = base_price - cross_rate
 
     return str(cross_rate), _rate, profit
+
+
+def calculate_trading_opportunity(pairs_info):
+    cross_rate = float
+    trade_order = [0, 0, 0]
+    for key, value in pairs_info.items():
+        cross_rate = (1 / float(pairs_info[key[1][0]]))
+        if trade_order[0] == 0:
+            trade_order[0] = key
+            continue
+        if key.startswith(trade_order[0][:2]):
+            trade_order[1] = key
+        else:
+            trade_order[2] = key
+
+    print(trading_paths(trade_order, pairs_info, value))
