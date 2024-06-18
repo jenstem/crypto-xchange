@@ -80,3 +80,15 @@ def calculate_trading_opportunity(pairs_info):
             trade_order[2] = key
 
     print(trading_paths(trade_order, pairs_info, value))
+
+
+def trade_ordering(stock_pairs):
+    trade_order = {}
+    for pair in stock_pairs:
+        for p in stock_pairs:
+            if p == pair:
+                trade_order[p] = "buy"
+            else:
+                trade_order[p] = "sell"
+
+    return trade_order
