@@ -27,6 +27,14 @@ class WSBookKraken:
     def convert_to_float(self, keyvalue):
         return float(keyvalue[0])
 
+    def sort_book(self):
+        bid = sorted(self.api_book['bid'].items(), key=self.convert_to_float, reverse=True)
+        ask = sorted(self.api_book['ask'].items(), key=self.convert_to_float)
+        print("Bid__________Ask")
+        for x in range(int(self.api_depth)):
+            print("%(bidprice)s %(bidvolume)s____%(askprice)s (%(askvolume)s)" %
+                    {"bidprice": bid[x][0], "bidvolume": bid[x][1], "askprice": ask[x][0], "askvolume": ask[x][1]})
+
 
     def ws_connect(self):
         try:
