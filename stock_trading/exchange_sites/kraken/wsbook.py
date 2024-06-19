@@ -38,6 +38,20 @@ class WSBookKraken:
             print("%(bidprice)s %(bidvolume)s____%(askprice)s (%(askvolume)s)" %
                     {"bidprice": bid[x][0], "bidvolume": bid[x][1], "askprice": ask[x][0], "askvolume": ask[x][1]})
 
+    def api_update_book(self, side, data):
+        for x in data:
+            price_level = x[0]
+            if float(x[1]) != 0.0:
+                self.api_book[side].update({price_level: float(x[1])})
+            else:
+                if price_level in self.api_book[side]:
+                    self.api_book[side].pop[price_level]
+        if side == "bid":
+            self.api_book["bid"] = dict(
+                sorted(self.api_book["bid"].items(), key=self.convert_to_float, reverse=True)[:int(self.api_depth)])
+        elif side == "ask":
+            self.api_book["ask"] = dict(
+                sorted(self.api_book["ask"].items(), key=self.convert_to_float)[:int(self.api_depth)])
 
     def ws_connect(self):
         try:
