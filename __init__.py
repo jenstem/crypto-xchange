@@ -28,8 +28,8 @@ def stock_watcher(ws, data):
     print("----------")
 
 
-def market_close():
-    print("Market is closed")
+def on_close():
+        print("---Closed---")
 
 
 def build_trading_pairs(*args) -> list:

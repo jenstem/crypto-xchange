@@ -18,3 +18,6 @@ class CryptoXchanges(WSBookKraken):
 
         except Exception as e:
             print(str(e))
+
+    def on_close(self):
+        print("---Closed---")
