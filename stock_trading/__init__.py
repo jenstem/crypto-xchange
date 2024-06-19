@@ -21,3 +21,7 @@ class CryptoXchanges(WSBookKraken):
 
     def on_close(self):
         print("---Closed---")
+
+    def start(self):
+        self.exchange_watcher, self.on_close
+        self.database.get_assets()
