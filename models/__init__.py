@@ -35,7 +35,7 @@ class Database:
                         investment.append(f"{profit_gain}% - {container[-1][2]} on {container[-1][1]} at {container[-1][6]} and Sell on {container[0][1]} at {container[0][5]}")
                         data += ([("Buy", container[-1][2], container[-1][1], container[-1][6], f"{profit_gain}%", profit, "Sell", container[0][5], container[0][1])])
 
-            headers = ['Action', 'symbol', 'exchange', 'ask price', 'profit gain', 'expected profit', 'artitrage', 'bid price', 'crypto exchange']
+            headers = ['Action', 'symbol', 'exchange', 'ask price', 'profit gain', 'expected profit', 'arbitrage', 'bid price', 'crypto exchange']
             create_xlsx('Potential Investment', headers, investment)
 
             self.db.close()
