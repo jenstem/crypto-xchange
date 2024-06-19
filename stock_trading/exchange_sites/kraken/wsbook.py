@@ -24,6 +24,9 @@ class WSBookKraken:
         self.send()
 
 
+    def callback_function(self):
+        self.sort_book()
+
     def convert_to_float(self, keyvalue):
         return float(keyvalue[0])
 
