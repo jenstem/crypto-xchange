@@ -24,6 +24,10 @@ class WSBookKraken:
         self.send()
 
 
+    def convert_to_float(self, keyvalue):
+        return float(keyvalue[0])
+
+
     def ws_connect(self):
         try:
             self.ws = create_connection(self.api_domain)
